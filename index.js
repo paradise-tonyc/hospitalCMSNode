@@ -1,5 +1,6 @@
 
 import express from "express";
+import cors from "cors";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
 // 要開一堆鬼權限
@@ -14,7 +15,7 @@ const app = express();
 const PORT = 3780;
 
 const analyticsDataClient = new BetaAnalyticsDataClient();
-let response = []
+let response = [];
 
 async function runReport() {
   const propertyId = "423114570";
@@ -54,7 +55,17 @@ async function runReport() {
   //   console.log(row.dimensionValues[0], row.metricValues[0]);
   // });
   return response
-}
+};
+
+// 設定一組origin
+// app.use(cors({
+//   origin: "https://slug-panel.onrender.com",
+//   headers: ["Content-Type"],
+//   credentials: true,
+// }));
+
+// 設定所有的 cors
+app.use(cors())
 
 app.get('/', async function (req, res) {
   console.log("User runReport")
